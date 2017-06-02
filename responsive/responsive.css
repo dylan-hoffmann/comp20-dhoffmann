@@ -1,7 +1,7 @@
 		/*Each box is about 128x240px*/
 #software {
 	width:128; height: 240;
-	background: url(/software.png) 512 -240px;
+	background: url("software.png") 512 -240px;
 	background-color: red;
 }
 @media screen and (min-width: 1201) {
