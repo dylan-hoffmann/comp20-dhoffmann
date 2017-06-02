@@ -2,31 +2,31 @@
 @media screen and (min-width: 1201) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 0 0px;
+		background: url(/software.png) 0 0px;
 	}
 }
 @media screen and (min-width: 1101) and (max-width: 1200) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 128 0px;
+		background: url(/software.png) 128 0px;
 	}
 }
 @media screen and (min-width: 1001) and (max-width: 1100) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 256 0px;
+		background: url(/software.png) 256 0px;
 	}
 }
 @media screen and (min-width: 901) and (max-width: 1000) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 384 0px;
+		background: url(/software.png) 384 0px;
 	}
 }
 @media screen and (min-width: 801) and (max-width: 900) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 512 0px;
+		background: url(/software.png) 512 0px;
 	}
 }
 @media screen and (min-width: 701) and (max-width: 800){
