@@ -3,6 +3,7 @@
 	#software {
 		width:128; height: 240;
 		background:url(responsive/software.png) 0 0px;
+		background-color: blue;
 	}
 }
 @media screen and (min-width: 1101) and (max-width: 1200) {
@@ -44,16 +45,17 @@
 @media screen and (min-width: 501) and (max-width: 600) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 256 240px;
+		background: url(software.png) 256 -240px;
 	}
 }
 @media screen and (min-width: 401) and (max-width: 500) {
 	#software {
 		width:128; height: 240;
-		background: url(software.png) 384 240px;
+		background: url(software.png) 384 -240px;
 	}
 }
 #software {
 	width:128; height: 240;
-	background: url(software.png) 512 240px;
+	background: url(software.png) 512 -240px;
+	background-color: red;
 }
