@@ -2,7 +2,7 @@
 @media screen and (min-width: 1201) {
 	#software {
 		width:128; height: 240;
-		background: url("comp20-dhoffmann/responsive/software.png") 0 0px;
+		background:url(responsive/software.png) 0 0px;
 	}
 }
 @media screen and (min-width: 1101) and (max-width: 1200) {
