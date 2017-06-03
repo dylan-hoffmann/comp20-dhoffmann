@@ -4,6 +4,10 @@
 	/*background: url("software.png") 512 -240px;*/
 	color: red;
 }
+body {
+	color: yellow;
+	background-color: green;
+}
 /*
 @media screen and (min-width: 1201) {
 	#software {
