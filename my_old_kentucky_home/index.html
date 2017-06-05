@@ -23,7 +23,7 @@
 			//end --> 1:31
 			var lyric = ["The sun shines bright in My Old Kentucky Home,\n\'Tis summer, the people are gay;\nThe corn-top\'s ripe and the meadow\'s in the bloom\nWhile the birds make music all the day.", "The young folks roll on the little cabin floor,\nAll merry, all happy and bright;\nBy \'n\' by hard times come a knocking at the door,\nThen My Old Kentucky Home, good night!\n", "Weep no more my lady\nOh weep no more today;\nWe will sing one song\nFor My Old Kentucky Home\nFor My Old Kentucky Home, far away\n"];
 			lyrs = document.getElementById("lyrics");
-			var vid = document.getElementsByTagName("video");
+			var vid = document.getElementsByTagName("video")[0];
 			vid.addEventListener("timeupdate",function(){
 				if (vid.currentTime < 7){
 					lyrs.innerHTML="<img src='horses.jpeg' alt='Sorry, no horse image could be displayed'/>"
