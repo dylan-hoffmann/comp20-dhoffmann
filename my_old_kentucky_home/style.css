@@ -1,3 +1,15 @@
 body {
-  background: blue;
+  background: firebrick; 
 }
+#title {
+  font-family: Papyrus, sans-serif;
+  font color: coral;
+  background: maroon;
+}
+
+#lyrics {
+  font-family: fantasy;
+  color:  crimson;
+  background: indianred;
+}
+
