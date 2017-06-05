@@ -3,13 +3,11 @@ body {
 }
 #title {
   font-family: Papyrus, sans-serif;
-  font color: coral;
-  background: maroon;
 }
 
 #lyrics {
-  font-family: fantasy;
-  color:  crimson;
-  background: indianred;
+  font-family: Papyrus;
+  color:  coral;
+  font-size: large;
 }
 
