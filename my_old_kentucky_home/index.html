@@ -21,12 +21,12 @@
 			//the young folks --> 0:34
 			//chorus -->1:03
 			//end --> 1:31
-			var lyric = ["The sun shines bright in My Old Kentucky Home,\n\'Tis summer, the people are gay;\nThe corn-top\'s ripe and the meadow\'s in the bloom\nWhile the birds make music all the day.", "The young folks roll on the little cabin floor,\nAll merry, all happy and bright;\nBy \'n\' by hard times come a knocking at the door,\nThen My Old Kentucky Home, good night!\n", "Weep no more my lady\nOh weep no more today;\nWe will sing one song\nFor My Old Kentucky Home\nFor My Old Kentucky Home, far away\n"];
+			var lyric = ["The sun shines bright in My Old Kentucky Home,\n \'Tis summer, the people are gay; \n The corn-top\'s ripe and the meadow\'s in the bloom \n While the birds make music all the day.", "The young folks roll on the little cabin floor, \n All merry, all happy and bright; \n By \'n\' by hard times come a knocking at the door, \n Then My Old Kentucky Home, good night! \n ", "Weep no more my lady \n Oh weep no more today; \n We will sing one song \n For My Old Kentucky Home\nFor My Old Kentucky Home, far away\n"];
 			lyrs = document.getElementById("lyrics");
 			var vid = document.getElementsByTagName("video")[0];
 			vid.addEventListener("timeupdate",function(){
 				if (vid.currentTime < 7){
-					lyrs.innerHTML="<img src='horses.jpeg' alt='Sorry, no horse image could be displayed'/>"
+					lyrs.innerHTML="<img src='horse.jpeg' alt='Sorry, no horse image could be displayed'/>"
 				}
 				else if (vid.currentTime < 34){
 					lyrs.innerHTML=lyric[0];
