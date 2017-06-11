@@ -8,11 +8,7 @@
   <script>
     function parse() {
       jsonData = '[{"id":1,"content":"Do you really want to hurt me?","username":"Boy"},{"id":2,"content":"Do you really want to make me cry?","username":"George"}]';
-      //var msgOne = jsonData[0];
-      //var msgTwo = jsonData[1];
       var parsed = JSON.parse(jsonData);
-      //var parsedTwo = JSON.parse(msgTwo);
-      //console.log(parsedOne.id);
       var mes = document.getElementById("messages");
       mes.innerHTML = parsed[0].content + " " + parsed[0].username + 
       "<br></br>" + parsed[1].content + " " + parsed[1].username;
