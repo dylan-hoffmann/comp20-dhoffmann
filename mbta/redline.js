@@ -1,19 +1,52 @@
-function initmap(){
-	var api_key = "0vCoJh8PekiHiZysM9oUWw";
-	var mbtaURL = "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key" +
-	api_key + "&route=Red&format=json";
-	var stations;
+/*
+function initMap(){
 	var image = "train.jpeg";
-	var rqst;
+	var centerCoord = {lat:42.352271, lng: -71.0552420000001};
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 4,
+		center: centerCoord
+	});
+	var marker = new google.maps.Marker({
+		position: centerCoord,
+		map: map
+	});
+*/
+
+
+
+
+
+
+function initMap(){
+	var api_key = "0vCoJh8PekiHiZysM9oUWw";
+	var mbtaURL = "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key=0vCoJh8PekiHiZysM9oUWw&route=Red&format=json";
+	var image = "train.jpeg";
+	var rqst = new XMLHttpRequest();
+	var stations = ;
+
+	rqst.onreadystatechange = function(){
+		if (this.readyState == XMLHttpRequest.DONE 
+			&& this.status == 200){
+			stations = JSON.parse(this.responseText);
+		}
+	};
+	rqst.open("GET", mbtaURL, true);
+	rqst.send();
+	/*
+	makeRqst();
+
 	function makeRqst(){
+		console.log("Here");
 		rqst = new XMLHttpRequest();
 		rqst.onreadystatechange = callURL;
 		rqst.open('GET', mbtaURL, true);
 		rqst.send();
 	}
 	function callURL(){
+		console.log("callUrl");
 		if (rqst.readyState === XMLHttpRequest.DONE) {
 			if (rqst.status === 200) {
+				console.log("if");
 				stations = JSON.parse(rqst.responseText);
 			}
 			else {
@@ -21,11 +54,14 @@ function initmap(){
 			}
 		}
 	}
+	*/
+	console.log(stations);
 	var preJFK = [];
 	var ashmont = [];
 	var braintree = [];
 	var centerCoord;
 	function getCoords(){
+		console.log(stations.direction);
 		for (var i = 0; i < stations.direction[0].length; i++) {
 			var stat = stations.direction[0].stop[i];
 			if(stat.parent_station_name == "South Station") {
@@ -48,12 +84,17 @@ function initmap(){
 			}
 		};
 	}
-	var options = {
-		center: centerCoord,
-		zoom: 3,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById('map_canvas'), options);
+	console.log("calling function");
+	getCoords();
+	// var options = {
+
+	// };
+	console.log(centerCoord);
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 4,
+		center: centerCoord
+		//mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
 	/*
 	markers = [];
 	function makeMarker() {
