@@ -11,6 +11,8 @@ function parse(){
 			var msg = "";
 			for (var i = 0; i < data.length; i++){
 				msg += "<p>" + data[i].content + " " + data[i].username + "<br></br>";
+			}
+			mes.innerHTML = msg;
 		} else if (xmlreq.readyState == 4 && xmlreq.status != 200){
 			mes.innerHTML = "Something went wrong, please try again later.";
 		} else {
