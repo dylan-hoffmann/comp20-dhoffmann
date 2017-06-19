@@ -1,3 +1,11 @@
+/***************\	/***************\	/***************\	/***************\
+|**DEPRECIATED**|	|**DEPRECIATED**|	|**DEPRECIATED**|	|**DEPRECIATED**|
+|*PLEASE IGNORE*|	|*PLEASE IGNORE*|	|*PLEASE IGNORE*|	|*PLEASE IGNORE*|
+\***************|	|***************|	|***************|	|***************/
+
+
+
+
 /*
 function initMap(){
 	var image = "train.jpeg";
@@ -11,11 +19,6 @@ function initMap(){
 		map: map
 	});
 */
-
-
-
-
-
 
 function initMap(){
 	var api_key = "0vCoJh8PekiHiZysM9oUWw";

@@ -1,5 +1,6 @@
 function initMap(){
-	var api_key = "0vCoJh8PekiHiZysM9oUWw";
+	var mbta_key = "0vCoJh8PekiHiZysM9oUWw";
+	var ggl_key = "AIzaSyD10iMTA5wzT6wgc3oNd09gzmxp4sBW_aI";
 	var image = "train.jpeg";
 	var stationsJSON = '{ "station" : [' +
 					'{ "name":"Alewife", "lat":42.395428 , "lon":-71.142483},' +
