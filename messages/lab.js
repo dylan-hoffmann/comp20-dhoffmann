@@ -5,12 +5,11 @@ function parse(){
 	xmlreq.open("GET", "data.json", true);
 	xmlreq.onreadystatechange = function() {
 		if (xmlreq.readyState == 4 && xmlreq.status == 200) {
-			console.log("All good here");
 			message =  xmlreq.responseText;
 			data = JSON.parse(message);
 			var msg = "";
 			for (var i = 0; i < data.length; i++){
-				msg += "<p>" + data[i].content + " " + data[i].username + "<br></br>";
+				msg += "<p>" + data[i].content + " " + data[i].username + "</p>";
 			}
 			mes.innerHTML = msg;
 		} else if (xmlreq.readyState == 4 && xmlreq.status != 200){
