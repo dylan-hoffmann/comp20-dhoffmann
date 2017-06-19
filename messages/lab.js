@@ -2,7 +2,7 @@
 function parse(){
 	var xmlreq = new XMLHttpRequest();
 	var mes = document.getElementById("messages");
-	xmlreq.open("GET", "https://messagehub.herokuapp.com/messages.json", true);
+	xmlreq.open("GET", "data.json", true);
 	xmlreq.onreadystatechange = function() {
 		if (xmlreq.readyState == 4 && xmlreq.status == 200) {
 			console.log("All good here");
