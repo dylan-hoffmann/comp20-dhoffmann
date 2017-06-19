@@ -8,11 +8,9 @@ function parse(){
 			console.log("All good here");
 			message =  xmlreq.responseText;
 			data = JSON.parse(message);
-			var mes1 = data[0].content;
-			var mes2 = data[1].content;
-			var user1 = data[0].username;
-			var user2 = data[1].username;
-			mes.innerHTML = mes1 + " " + user1 + "<br></br>" + mes2 + " " + user2;
+			var msg = "";
+			for (var i = 0; i < data.length; i++){
+				msg += "<p>" + data[i].content + " " + data[i].username + "<br></br>";
 		} else if (xmlreq.readyState == 4 && xmlreq.status != 200){
 			mes.innerHTML = "Something went wrong, please try again later.";
 		} else {
