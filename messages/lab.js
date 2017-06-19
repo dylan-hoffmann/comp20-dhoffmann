@@ -5,7 +5,6 @@ function parse(){
 	xmlreq.open("GET", "data.json", true);
 	xmlreq.onreadystatechange = function() {
 		if (xmlreq.readyState == 4 && xmlreq.status == 200) {
-			console.log("All good here");
 			message =  xmlreq.responseText;
 			data = JSON.parse(message);
 			var msg = "";
