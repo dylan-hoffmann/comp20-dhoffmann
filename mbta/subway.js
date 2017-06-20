@@ -167,6 +167,7 @@ function initMap(){
 		var firstClick = true;
 		userMarker.addListener('click', function() {
 			stationWindow.close();
+			trainWindow.close();
 			clearInterval(drawInterval);
 			userWindow.setContent("The nearest Redline station is " + closest.name + 
 								  ". It is " + smallest + " miles away.");
@@ -183,6 +184,7 @@ function initMap(){
 	function displayWindow(station){
 		userWindow.close();
 		stationWindow.close();
+		trainWindow.close();
 		clearInterval(drawInterval);
 		stationWindow.open(map, markers[station.num-1]);
 		document.getElementById('stationwin').innerHTML = getSchedule(station);
@@ -344,7 +346,7 @@ function initMap(){
 			waitForTrainClick(i);
 		};
 	}
-	(drawTrains());
+	//(drawTrains());
 	//var trainInterval = setInterval(drawTrains, refresh);
 }
 
