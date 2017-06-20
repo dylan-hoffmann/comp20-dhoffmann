@@ -1,41 +1,42 @@
 function initMap(){
 	var ggl_key = "AIzaSyD10iMTA5wzT6wgc3oNd09gzmxp4sBW_aI";
 	var mbtaLink = "https://defense-in-derpth.herokuapp.com/redline.json";
-	var image = "train.jpeg";
+	var train_image = "train_image.jpg";
+	var station_image = "train_station.png";
 	var meters2miles = 0.00062137119;
 	var myLoc = {lat: 42.360081, lng: -71.058884};
-	var request = new XMLHttpRequest();
+	//var request = new XMLHttpRequest();
 	var stationsJSON = '{ "station" : [' +
-					'{ "name":"Alewife", "lat":42.395428 , "lon":-71.142483},' +
-					'{ "name":"Davis", "lat":42.39674 , "lon":-71.121815},' +
-					'{ "name":"Porter", "lat":42.3884 , "lon":-71.119148999999999},' +
-					'{ "name":"Harvard Square", "lat":42.373362 , "lon":-71.118956},' +
-					'{ "name":"Central Square", "lat":42.365486 , "lon":-71.103802},' +
-					'{ "name":"Kendall/MIT", "lat":42.36249079 , "lon":-71.08617653},' +
-					'{ "name":"Charles/MGH", "lat":42.361166 , "lon":-71.070628},' +
-					'{ "name":"Park Street", "lat":42.35639457 , "lon":-71.0624242},' +
-					'{ "name":"Downtown Crossing", "lat":42.355518 , "lon":-71.060225},' +
-					'{ "name":"South Station", "lat":42.352271 , "lon":-71.05524200000001},' +
-					'{ "name":"Broadway", "lat":42.342622 , "lon":-71.056967},' +
-					'{ "name":"Andrew", "lat":42.330154 , "lon":-71.057655},' +
-					'{ "name":"JFK/UMass", "lat":42.320685 , "lon":-71.052391},' +
-					'{ "name":"Savin Hill", "lat":42.31129 , "lon":-71.053331},' +
-					'{ "name":"Fields Corner", "lat":42.300093 , "lon":-71.061667},' +
-					'{ "name":"Shawmut", "lat":42.29312583 , "lon":-71.06573796000001},' +
-					'{ "name":"Ashmont", "lat":42.284652 , "lon":-71.06448899999999},' +
-					'{ "name":"North Quincy", "lat":42.275275 , "lon":-71.029583},' +
-					'{ "name":"Wollaston", "lat":42.2665139 , "lon":-71.0203369},' +
-					'{ "name":"Quincy Center", "lat":42.251809 , "lon":-71.005409},' +
-					'{ "name":"Quincy Adams", "lat":42.233391 , "lon":-71.007153},' +
-					'{ "name":"Braintree", "lat":42.2078543 , "lon":-71.0011385}' +
+					'{ "name":"Alewife", "lat":42.395428 , "lon":-71.142483, "num": 1},' +
+					'{ "name":"Davis", "lat":42.39674 , "lon":-71.121815, "num": 2},' +
+					'{ "name":"Porter Square", "lat":42.3884 , "lon":-71.119148999999999, "num": 3},' +
+					'{ "name":"Harvard Square", "lat":42.373362 , "lon":-71.118956, "num": 4},' +
+					'{ "name":"Central Square", "lat":42.365486 , "lon":-71.103802, "num": 5},' +
+					'{ "name":"Kendall/MIT", "lat":42.36249079 , "lon":-71.08617653, "num": 6},' +
+					'{ "name":"Charles/MGH", "lat":42.361166 , "lon":-71.070628, "num": 7},' +
+					'{ "name":"Park Street", "lat":42.35639457 , "lon":-71.0624242, "num": 8},' +
+					'{ "name":"Downtown Crossing", "lat":42.355518 , "lon":-71.060225, "num": 9},' +
+					'{ "name":"South Station", "lat":42.352271 , "lon":-71.05524200000001, "num": 10},' +
+					'{ "name":"Broadway", "lat":42.342622 , "lon":-71.056967, "num": 11},' +
+					'{ "name":"Andrew", "lat":42.330154 , "lon":-71.057655, "num": 12},' +
+					'{ "name":"JFK/UMass", "lat":42.320685 , "lon":-71.052391, "num": 13},' +
+					'{ "name":"Savin Hill", "lat":42.31129 , "lon":-71.053331, "num": 14},' +
+					'{ "name":"Fields Corner", "lat":42.300093 , "lon":-71.061667, "num": 15},' +
+					'{ "name":"Shawmut", "lat":42.29312583 , "lon":-71.06573796000001, "num": 16},' +
+					'{ "name":"Ashmont", "lat":42.284652 , "lon":-71.06448899999999, "num": 17},' +
+					'{ "name":"North Quincy", "lat":42.275275 , "lon":-71.029583, "num": 18},' +
+					'{ "name":"Wollaston", "lat":42.2665139 , "lon":-71.0203369, "num": 19},' +
+					'{ "name":"Quincy Center", "lat":42.251809 , "lon":-71.005409, "num": 20},' +
+					'{ "name":"Quincy Adams", "lat":42.233391 , "lon":-71.007153, "num": 21},' +
+					'{ "name":"Braintree", "lat":42.2078543 , "lon":-71.0011385, "num": 22}' +
 					']}';
 	var stations = JSON.parse(stationsJSON);
 	var preJFK = [];
 	var ashmont = [];
 	var braintree = [];
 	var markers = [];
+
 	function getCoords(){
-		console.log("In get coords");
 		for (var i = 0; i < stations.station.length; i++) {
 			if (i == 12) {
 				ashmont[0] = stations.station[i];
@@ -92,7 +93,6 @@ function initMap(){
 	var closest;
 	var smallest;
 	function getClosest(){
-		console.log(userCoord);
 		var userLatLng = new google.maps.LatLng(userCoord);
 		var initLL = new google.maps.LatLng({lat: stations.station[0].lat, lng: stations.station[0].lon});
 		function compDist(statLL){
@@ -120,10 +120,20 @@ function initMap(){
 	});
 	
 	var userWindow = new google.maps.InfoWindow({});
-	var stationWindow = new google.maps.InfoWindow({});
+	var stationWindow = new google.maps.InfoWindow({
+		content: "<div id='stationwin'>lorumIpsum</div>"
+	});
+	var trainWindow = new google.maps.InfoWindow({});
+	stationWindow.addListener('closeclick', function(){
+		clearInterval(drawInterval);
+	});
 	
-	var icon = {
-		url: image,
+	var station_icon = {
+		url: station_image,
+		scaledSize: new google.maps.Size(35,35)
+	};
+	var train_icon = {
+		url: train_image,
 		scaledSize: new google.maps.Size(25,25)
 	};
 	function makeMarker() {
@@ -134,10 +144,18 @@ function initMap(){
 				map: map,
 				position: coordinates,
 				title: stat.name,
-				icon: icon,
+				icon: station_icon,
 				optimized: false
-
 			});
+		};
+		function waitForClick(i){
+			markers[i].addListener('click', function(){
+				displayWindow(stations.station[i]);
+			});
+
+		}
+		for (var i = 0; i < markers.length; i++) {
+			waitForClick(i);
 		};
 		var userMarker = new google.maps.Marker({
 			map: map,
@@ -146,11 +164,9 @@ function initMap(){
 
 		});
 		var firstClick = true;
-		for (var i = 0; i < markers.length; i++) {
-			markers[i].addListener('click', displayWindow(i));
-		};
 		userMarker.addListener('click', function() {
 			stationWindow.close();
+			clearInterval(drawInterval);
 			userWindow.setContent("The nearest Redline station is " + closest.name + 
 								  ". It is " + smallest + " miles away.");
 			userWindow.open(map, userMarker);
@@ -162,48 +178,53 @@ function initMap(){
 
 	}
 
-	
-	function displayWindow(stationNum){
-		console.log("displayWindow");
-		console.log(stationNum);
-		var openOn = stations.station[stationNum];
+	var drawInterval;
+	function displayWindow(station){
 		userWindow.close();
-		stationWindow.setContent(getSchedule(openOn));
-		stationWindow.open(map, markers[stationNum]);
+		stationWindow.close();
+		clearInterval(drawInterval);
+		stationWindow.open(map, markers[station.num-1]);
+		document.getElementById('stationwin').innerHTML = getSchedule(station);
+		drawInterval = setInterval(function(){
+			document.getElementById('stationwin').innerHTML = getSchedule(station);
+		}, 5000);
 	}
 
 	var content = "";
 	var schedule;
-	request.open("GET", mbtaLink, true);
-	request.onreadystatechange = function() {
-		console.log("onreadystatechange");
-		if (request.readyState == 4 && request.status == 200) {
-			console.log("all is good");
-			data = request.responseText;
-			schedule = JSON.parse(data);
-			console.log(schedule);
+	(getJSON());
+	var jsonInterval = setInterval(getJSON, 5000);
 
-		} else if (request.readyState == 4) {
-			alert("Trouble connecting to MBTA realtime schedule");
-		} 
-		else {
-			content = "Please wait";
-		}
-	};
-	request.send(null);
+	function getJSON(){
+		var request = new XMLHttpRequest();	
+		request.open("GET", mbtaLink, true);
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+				data = request.responseText;
+				schedule = JSON.parse(data);
+			} else if (request.readyState == 4) {
+				alert("Trouble connecting to MBTA realtime schedule");
+			} else {
+				content = "Please wait";
+			}
+		};
+		request.send(null);
+	}
 
-	function getSchedule(checkMe) {
-		console.log("getSchedule");
+	function redrawWindow(){
+		getSchedule()
+	}
+
+	function getSchedule(checkMe){
 		var upcoming = [];
 		var count = 0;
 		if (schedule != null){
+			content = "<h1>" + checkMe.name + " Station</h1>";
 			for (var i = 0; i < schedule.TripList.Trips.length; i++) {
-				console.log("1st for loop");
-				for (var i = 0; j < schedule.TripList.Trips[i].Predictions[j].length; j++) {
-					console.log("second for loop");
+
+				for (var j = 0; j < schedule.TripList.Trips[i].Predictions.length; j++) {
 					if (schedule.TripList.Trips[i].Predictions[j].Stop == checkMe.name){
-						console.log("if statement");
-						var secs = schedule.TripList.Trips[i].Predictions[j].Seconds / 60;
+						var secs = schedule.TripList.Trips[i].Predictions[j].Seconds;
 						upcoming[count] = {
 							dest: schedule.TripList.Trips[i].Destination,
 							sec: secs
@@ -213,16 +234,25 @@ function initMap(){
 				};
 			};
 			for (var i = 0; i < count; i++) {
-				content += "<p>The train bound for " + upcoming[i].dest + 
-				" will be arriving in approximately " + upcoming[i].sec;
-				if (upcoming[i].sec < 10) {
-					content += " You'd better run if you want to make it</p>";
-				} else {
-					content += "</p>";
+				if (upcoming[i].sec > 0) {
+					content += "<p>The train bound for " + upcoming[i].dest + 
+					" will be arriving in approximately ";
+					if (upcoming[i].sec < 60) {
+						content += upcoming[i].sec + " seconds."
+					} else if (Math.round(upcoming[i].sec/60) == 1) {
+						content += Math.round(upcoming[i].sec/60) + " minute.";
+					} else {
+						content += Math.round(upcoming[i].sec/60) + " minutes.";
+					}
+					if (upcoming[i].sec < 120) {
+						content += " You'd better run if you want to make it</p>";
+					} else {
+						content += "</p>";
+					}
 				}
 			};
+			return content;
 		}
-
 	}
 
 
@@ -268,6 +298,54 @@ function initMap(){
 			map: map
 		});
 	}
-	
+	var trainMarkers = [];
+	var trainDest = [];
+	var count = 0;
+	function drawSuperTrains(){
+		for (var i = 0; i < count; i++){
+			trainMarkers[i].setMap(null);
+		}
+		drawTrains();
+	}
+	function drawTrains(){
+		trainMarkers = [];
+		trainDest = [];
+		count = 0;
+		if (schedule != null){
+			for (var i = 0; i < schedule.TripList.Trips.length; i++) {
+				var currTrain = schedule.TripList.Trips[i];
+				if (currTrain.Position != null){
+					trainMarkers[count] = new google.maps.Marker({
+						position: {lat: currTrain.Position.Lat, lng: currTrain.Position.Long},
+						title: currTrain.Position.Train,
+						map: map,
+						icon: train_icon
+					});
+					trainDest[count] = currTrain.Destination;
+					count++;
+				}
+			};
+		}
+		function displayTrainWindow(index){
+			userWindow.close();
+			stationWindow.close();
+			clearInterval(drawInterval);
+			var s = "<h2>" + trainMarkers[index].title + "</h2><p>This is the approximate location" +
+			" of train " + trainMarkers[index].title + " bound for " + trainDest[index] + ".</p>";
+			trainWindow.setContent(s);
+			trainWindow.open(map, trainMarkers[index]);
+
+		}
+		function waitForTrainClick(i){
+			trainMarkers[i].addListener('click', function(){
+				displayTrainWindow(i);
+			})
+		}
+		for (var i = 0; i < trainMarkers.length; i++) {
+			waitForTrainClick(i);
+		};
+	}
+	(drawTrains());
+	var trainInterval = setInterval(drawSuperTrains, 5000);
 }
 
