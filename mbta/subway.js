@@ -35,6 +35,7 @@ function initMap(){
 	var ashmont = [];
 	var braintree = [];
 	var markers = [];
+	var refresh = 30000;
 
 	function getCoords(){
 		for (var i = 0; i < stations.station.length; i++) {
@@ -187,13 +188,13 @@ function initMap(){
 		document.getElementById('stationwin').innerHTML = getSchedule(station);
 		drawInterval = setInterval(function(){
 			document.getElementById('stationwin').innerHTML = getSchedule(station);
-		}, 5000);
+		}, refresh);
 	}
 
 	var content = "";
 	var schedule;
 	(getJSON());
-	var jsonInterval = setInterval(getJSON, 5000);
+	var jsonInterval = setInterval(getJSON, refresh);
 
 	function getJSON(){
 		var request = new XMLHttpRequest();	
@@ -202,6 +203,7 @@ function initMap(){
 			if (request.readyState == 4 && request.status == 200) {
 				data = request.responseText;
 				schedule = JSON.parse(data);
+				drawTrains();
 			} else if (request.readyState == 4) {
 				alert("Trouble connecting to MBTA realtime schedule");
 			} else {
@@ -301,13 +303,10 @@ function initMap(){
 	var trainMarkers = [];
 	var trainDest = [];
 	var count = 0;
-	function drawSuperTrains(){
+	function drawTrains(){
 		for (var i = 0; i < count; i++){
 			trainMarkers[i].setMap(null);
 		}
-		drawTrains();
-	}
-	function drawTrains(){
 		trainMarkers = [];
 		trainDest = [];
 		count = 0;
@@ -346,6 +345,6 @@ function initMap(){
 		};
 	}
 	(drawTrains());
-	var trainInterval = setInterval(drawSuperTrains, 5000);
+	//var trainInterval = setInterval(drawTrains, refresh);
 }
 
