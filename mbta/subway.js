@@ -35,7 +35,7 @@ function initMap(){
 	var ashmont = [];
 	var braintree = [];
 	var markers = [];
-	var refresh = 30000;
+	var refresh = 15000;
 
 	function getCoords(){
 		for (var i = 0; i < stations.station.length; i++) {
