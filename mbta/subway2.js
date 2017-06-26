@@ -1,6 +1,7 @@
 function initMap(){
 	var ggl_key = "AIzaSyD10iMTA5wzT6wgc3oNd09gzmxp4sBW_aI";
 	var mbtaLink = "https://sheltered-taiga-53164.herokuapp.com/redline.json";
+	var locallink = "localhost:3000";
 	var train_image = "train_image.jpg";
 	var station_image = "train_station.png";
 	var meters2miles = 0.00062137119;
@@ -9,9 +10,9 @@ function initMap(){
 	var stationsJSON = '{ "station" : [' +
 					'{ "name":"Alewife", "lat":42.395428 , "lon":-71.142483, "num": 1},' +
 					'{ "name":"Davis", "lat":42.39674 , "lon":-71.121815, "num": 2},' +
-					'{ "name":"Porter Square", "lat":42.3884 , "lon":-71.119148999999999, "num": 3},' +
-					'{ "name":"Harvard Square", "lat":42.373362 , "lon":-71.118956, "num": 4},' +
-					'{ "name":"Central Square", "lat":42.365486 , "lon":-71.103802, "num": 5},' +
+					'{ "name":"Porter", "lat":42.3884 , "lon":-71.119148999999999, "num": 3},' +
+					'{ "name":"Harvard", "lat":42.373362 , "lon":-71.118956, "num": 4},' +
+					'{ "name":"Central", "lat":42.365486 , "lon":-71.103802, "num": 5},' +
 					'{ "name":"Kendall/MIT", "lat":42.36249079 , "lon":-71.08617653, "num": 6},' +
 					'{ "name":"Charles/MGH", "lat":42.361166 , "lon":-71.070628, "num": 7},' +
 					'{ "name":"Park Street", "lat":42.35639457 , "lon":-71.0624242, "num": 8},' +
@@ -219,18 +220,83 @@ function initMap(){
 		getSchedule()
 	}
 
+	function fixedName(stationName){
+		var betterName = "";
+		for(var i = 0; i < stationName.length -1; i++){
+			if (stationName[i+1] == "-"){
+				return betterName;
+			}
+			else {
+				betterName += stationName[i];
+			}
+		}
+		betterName += stationName[stationName.length-1];
+		return betterName;
+	}
+
 	function getSchedule(checkMe){
+		var inoutbound = [];
+		//var upcoming = [];
+		var count = 0;
+		if (schedule != null){
+			content = "<h1>" + checkMe.name + " Station</h1>";
+			for (var k = 0; k < 2; k++){
+				var upcoming = [];
+				count = 0;
+				for (var i = 0; i < schedule.mode[0].route[0].direction[k].trip.length; i++) {
+					for (var j = 0; j < schedule.mode[0].route[0].direction[k].trip[i].stop.length; j++) {
+						console.log(schedule.mode[0].route[0].direction[k].trip[i]);
+						if (fixedName(schedule.mode[0].route[0].direction[k].trip[i].stop[j].stop_name) == checkMe.name){
+							var secs = schedule.mode[0].route[0].direction[k].trip[i].stop[j].pre_away;
+							upcoming[count] = {
+								dest: schedule.mode[0].route[0].direction[k].trip[i].trip_name,
+								sec: secs
+							};
+							count++;
+						}
+					};
+				};
+				inoutbound[k] = {
+					title: schedule.mode[0].route[0].direction[k].direction_name,
+					upcoming: upcoming,
+					upcomingCount: count
+				};
+			};
+			for (var k = 0; k < 2; k++){
+				content += "<h2>" + inoutbound[k].title + "</h2>";
+				for (var i = 0; i < inoutbound[k].upcomingCount; i++) {
+					if (inoutbound[k].upcoming[i].sec > 0) {
+						content += "<p>The " + inoutbound[k].upcoming[i].dest + 
+						" will be arriving in approximately ";
+						if (inoutbound[k].upcoming[i].sec < 60) {
+							content += inoutbound[k].upcoming[i].sec + " seconds."
+						} else if (Math.round(inoutbound[k].upcoming[i].sec/60) == 1) {
+							content += Math.round(inoutbound[k].upcoming[i].sec/60) + " minute.";
+						} else {
+							content += Math.round(inoutbound[k].upcoming[i].sec/60) + " minutes.";
+						}
+						if (inoutbound[k].upcoming[i].sec < 120) {
+							content += " You'd better run if you want to make it</p>";
+						} else {
+							content += "</p>";
+						}
+					}
+				};
+			}
+			return content;
+		}
+		/*
 		var upcoming = [];
 		var count = 0;
 		if (schedule != null){
 			content = "<h1>" + checkMe.name + " Station</h1>";
-			for (var i = 0; i < schedule.TripList.Trips.length; i++) {
+			for (var i = 0; i < schedule.mode[0].route[0].direction[0].trip.length; i++) {
 
-				for (var j = 0; j < schedule.TripList.Trips[i].Predictions.length; j++) {
-					if (schedule.TripList.Trips[i].Predictions[j].Stop == checkMe.name){
-						var secs = schedule.TripList.Trips[i].Predictions[j].Seconds;
+				for (var j = 0; j < schedule.mode[0].route[0].driplist.Trips[i].Predictions.length; j++) {
+					if (schedule.mode[0].route[0].driplist.Trips[i].Predictions[j].Stop == checkMe.name){
+						var secs = schedule.mode[0].route[0].driplist.Trips[i].Predictions[j].Seconds;
 						upcoming[count] = {
-							dest: schedule.TripList.Trips[i].Destination,
+							dest: schedule.mode[0].route[0].driplist.Trips[i].Destination,
 							sec: secs
 						};
 						count++;
@@ -257,6 +323,7 @@ function initMap(){
 			};
 			return content;
 		}
+		*/
 	}
 
 
@@ -313,16 +380,17 @@ function initMap(){
 		trainDest = [];
 		count = 0;
 		if (schedule != null){
-			for (var i = 0; i < schedule.TripList.Trips.length; i++) {
-				var currTrain = schedule.TripList.Trips[i];
-				if (currTrain.Position != null){
+			for (var i = 0; i < schedule.mode[0].route[0].direction[0].trip.length; i++) {
+				var currTrain = schedule.mode[0].route[0].direction[0].trip[i];
+				if (currTrain.vehicle != null){
+					var trainLoc = {lat: parseFloat(currTrain.vehicle.vehicle_lat), lng: parseFloat(currTrain.vehicle.vehicle_lon)};
 					trainMarkers[count] = new google.maps.Marker({
-						position: {lat: currTrain.Position.Lat, lng: currTrain.Position.Long},
-						title: currTrain.Position.Train,
+						position: trainLoc,
+						title: currTrain.vehicle.vehicle_label,
 						map: map,
 						icon: train_icon
 					});
-					trainDest[count] = currTrain.Destination;
+					trainDest[count] = currTrain.trip_headsign;
 					count++;
 				}
 			};
