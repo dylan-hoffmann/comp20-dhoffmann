@@ -1,0 +1,21 @@
+body {
+	background-color: FireBrick;
+}
+
+li {
+	color: DeepSkyBlue;
+	font-family: 'Century Gothic';
+}
+
+h1 {
+	color: MediumBlue;
+	font-family: Tahoma;
+}
+
+h2 {
+	color: DodgerBlue;
+	font-family: Tahoma;
+}
+img {
+	width: 50%;
+}

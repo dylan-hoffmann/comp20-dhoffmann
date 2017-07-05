@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Security Report</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<h1>Security Report</h1>
+		<ul>
+			<li>
+				<h2>Introduction</h2>
+				<p>I was "hired" to find security vulnerabilities in a Node.js, Express, MongoDB web application which allows users to check in at a location.
+				</p>
+			</li>
+			<li>
+				<h2>Methodology</h2>
+				<p> In testing this application for vulnerabilities I attempted to use the Burp suite, but was unable to get the security certificate to be accepted, so I only used curl. After referencing the source code (server-vuln.js) I attempted to exploit points of user input which, if not properly checked and sanitized are often points of weakness. I found 2 primary points of input: A POST request served by /sendLocation, and a GET request served by /checkins.json.
+			</li>
+			<li>
+				<h2>Abstract of Findings</h2>
+				<p>I found multiple exploits which would allow a malicious party to access the contents of the database, and one particular vulnerability which would allow a malicious party to manipulate client-side content, potentially exploiting user cookies (if cookies were being used) or allowing them to insert malicious javascript on the client-side.</p>
+			</li>
+			<li>
+				<h2>Issues Found</h2>
+				<ol>
+					<li>Unautherized (or shouldn't be authorized) database access</li>
+					<ul>
+						<li>POST request at /sendLocation</li>
+						<li>High. All successful POST requests served by that page allow the pary who made the request to see the contents of the entire database. While not terrible given we only store username, lat, lng, and time, if we were to store anything more sesitive than that (and location is pretty sensitive) it would allow anyone with curl to examine the contents of the entire db.</li>
+						<li>This exploit is visible to anyone who makes a POST request to the sendLocation page, as it automatically dumps the contents of the database:
+							<ul>
+								<li><img src="DBdumpCommand.png" alt="ScreenShot of curl POST request"/></li>
+								<li><img src="DBDumpResult1.png" alt="Screenshot of first part of DBdump from POST request"/></li>
+								<li><img src="DBDumpResult2.png" alt="Screenshot of second part of DBdump from POST request"/></li>
+							</ul>
+						</li>
+						<li>I recommend not returning the entire result array if the db insertion was successful, but instead returning a success message, or just the db item that was inserted.</li>
+					</ul>
+					<li>XSS</li>
+					<ul>
+						<li>POST request at /sendLocation</li>
+						<li>High, this exploit may allow a thrid party to run malicious javascript on a user's browser, potentially making the user vulnerable to a variety of attacks, such as malicious redirects or downloads, or web-idenity theft (or normal everyday identity theft)</li>
+						<li>By including javascript, or links to javascript in the body of the POST request, upon loading the database data on a user's browser, the javascript will run; possibly causing any of the above consequences.</li>
+						<li>Documentation:
+							<ul>
+								<li><img src="XSSCommand.png" alt="Screenshot of my terminal with the curl POST request showing non-malicious javascript insertion"/></li>
+								<li><img src="XSSResult.png" alt="Screenshot of Defense-in-Derpth showing the result of the javascript insertion"/></li>
+							</ul>
+						</li>
+						<li>I recommend verifying input before inserting it into the database. This can be done by stripping out non-accepted (or particularly dangerous) characters such as < and >. Never trust user input.</li>
+					</ul>
+					<li>NoSQL Injection</li>
+					<ul>
+						<li>GET request at /checkins.json</li>
+						<li>High, Potentially allows a malicious party access to Database information, or access to Admin account (if one exists)</li>
+						<li>By inputting special characters (such as [$ne]) into the request malicious parties can gain access to the entire database contents.</li>
+						<li>Documentation of the issue:
+							<ul>
+								<li><img src="NoSQLInjection.png" alt="Screenshot of database, with bad input visible in address bar (I couldn't get this one to work with curl for some reason)."/></li>
+							</ul>
+						</li>
+						<li>Again, I recommend never trusting user input, by validating the request before having the db process it, we could remove special characters and strings from the request, and ensure/force the data entered to match the required data type (in the case of things we are sure should be alpha-numeric/numerals only).</li>
+					</ul>
+				</ol>
+			</li>
+			<li>
+				<h2>Conclusion</h2>
+				<p>The issues with this application, particularly the blind trust of user input, make is such that despite the db being cleared some 15 hours prior to the writting of this report, the site has already been made unuse-able by the sheer number of alerts, logs, and assorted media which has been inserted on the page. I have no estimate for the cost to fix these problems, however, as they are all fairy simple fixes, it is almost certainly worth the cost to ensure your website is secure for your users. Some things to consider for the future is how and what data is stored, beyond taking measures to prevent unauthorized access, if in the future more sensitive data is to be stored, all the above measures should be taken as well as ensuring adequate encryption for user data. </p>
+			</li>
+		</ul>
+	</body>
+</html>
