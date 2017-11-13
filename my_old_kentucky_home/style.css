@@ -2,11 +2,11 @@ body {
   background: firebrick; 
 }
 #title {
-  font-family: Papyrus, sans-serif;
+  font-family: sans-serif;
 }
 
 #lyrics {
-  font-family: Papyrus;
+  font-family: arial;
   color:  coral;
   font-size: large;
 }
