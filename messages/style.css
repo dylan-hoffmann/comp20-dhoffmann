@@ -1,11 +1,11 @@
 /* Your CSS here... */
 body {
-	background-color: lime;
-	font-family: Papyrus;
+	background-color: maroon;
+	font-family: Serif;
 	font-size: 16px;
 }
 #messages {
-	background-color: limegreen;
+	background-color: white;
 	font-family: sans-serif;
 	font-size: 12px;
 }
